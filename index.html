@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First-Month KPI Review, Claire, Suan Bua Thai Restaurant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@500;600&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F5F2EA;
+    --ivory-2:#EFEADC;
+    --ink:#1E2A38;
+    --ink-soft:#425064;
+    --muted:#726A5C;
+    --gold:#9C7A3C;
+    --gold-soft:#C7AD79;
+    --line:#DAD3C3;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .slide{transition:opacity .5s ease, transform .5s ease;}
+  }
+  h1,h2,h3,.serif{ font-family:'Fraunces',serif; font-weight:500; letter-spacing:-0.01em; }
+  .jp{font-family:'Noto Serif JP','Noto Sans JP',serif;}
+  .jp-body{font-family:'Noto Sans JP',sans-serif; font-weight:400;}
+
+  #deck{ position:relative; width:100vw; height:100vh; overflow:hidden; }
+  .slide{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transform:translateY(14px); }
+  .slide.active{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .slide-inner{ width:min(1040px, 90vw); max-height:88vh; overflow-y:auto; padding:2vh 4px 4vh 4px; }
+  .slide-inner::-webkit-scrollbar{width:5px;}
+  .slide-inner::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+
+  #progress-track{ position:fixed; top:0; left:0; right:0; height:2px; background:var(--line); z-index:40; }
+  #progress-bar{ height:100%; width:0%; background:var(--gold); transition:width .45s ease; }
+  #topbar{ position:fixed; top:22px; left:40px; right:40px; display:flex; justify-content:space-between; align-items:baseline; z-index:35; pointer-events:none; }
+  #brand{ font-family:'Fraunces',serif; font-size:14px; letter-spacing:.02em; color:var(--muted); }
+  #counter{ font-family:'Inter',sans-serif; font-size:13px; color:var(--muted); letter-spacing:.04em; }
+  #counter b{color:var(--ink); font-weight:600;}
+
+  #dots{ position:fixed; right:32px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:12px; z-index:35; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--line); cursor:pointer; border:none; padding:0; transition:background .25s ease, transform .25s ease; }
+  .dot:hover{background:var(--gold-soft);}
+  .dot.active{background:var(--gold); transform:scale(1.4);}
+
+  #arrows{ position:fixed; bottom:26px; left:40px; z-index:35; display:flex; gap:10px; }
+  .navbtn{ width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--white); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:15px; transition:border-color .2s, background .2s; }
+  .navbtn:hover{border-color:var(--gold); background:var(--ivory-2);}
+  .navbtn:disabled{opacity:.3; cursor:default;}
+  .navbtn:disabled:hover{border-color:var(--line); background:var(--white);}
+
+  #sectiontag{ position:fixed; bottom:30px; right:32px; z-index:35; font-size:12px; letter-spacing:.06em; color:var(--muted); }
+
+  .eyebrow{ font-size:12.5px; color:var(--gold); letter-spacing:.03em; margin-bottom:14px; font-family:'Inter',sans-serif; font-weight:600; }
+  .title{ font-size:clamp(28px,4vw,44px); line-height:1.15; margin:0 0 6px 0;}
+  .subtitle{ font-size:16px; color:var(--ink-soft); margin:0 0 30px 0; max-width:62ch;}
+  .rule{ height:1px; background:var(--line); border:none; margin:26px 0; }
+
+  .stat{ font-family:'Fraunces',serif; font-weight:500; font-size:clamp(19px,2.4vw,24px); line-height:1.5; max-width:40ch; color:var(--ink); margin:0; }
+  .stat-jp{ font-size:14.5px; color:var(--ink-soft); margin-top:10px; }
+
+  .ja-block{ margin-top:14px; padding:16px 20px; background:var(--white); border-left:2px solid var(--gold-soft); color:var(--ink-soft); font-size:15px; line-height:1.9; }
+  .ja-label{ font-size:10.5px; letter-spacing:.08em; color:var(--gold); font-family:'Inter',sans-serif; font-weight:600; margin-bottom:6px; display:block; }
+
+  .block-label{ font-size:12.5px; color:var(--gold); font-weight:600; font-family:'Inter',sans-serif; letter-spacing:.01em; margin-bottom:3px; }
+  .block-label .jp{ display:block; color:var(--muted); font-weight:500; font-size:12px; margin-top:2px; }
+
+  ul.ev-points{ list-style:none; padding:0; margin:18px 0 0 0; }
+  ul.ev-points li{ padding:13px 0; border-top:1px solid var(--line); }
+  ul.ev-points li:last-child{ border-bottom:1px solid var(--line); }
+  ul.ev-points .en{ font-size:15px; color:var(--ink); line-height:1.55; }
+  ul.ev-points .jp{ font-size:13px; color:var(--muted); margin-top:4px; display:block; }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid5{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  @media (max-width:760px){ .grid2{grid-template-columns:1fr;} .grid5{grid-template-columns:repeat(2,1fr);} }
+
+  .kpi-card{ background:var(--white); border:1px solid var(--line); padding:22px 22px 20px; }
+  .kpi-card .num{ font-family:'Fraunces',serif; font-size:14px; color:var(--gold); margin-bottom:10px;}
+  .kpi-card h3{ font-size:16.5px; margin:0 0 6px 0; }
+  .kpi-card .jp{ font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+  .kpi-card p{ font-size:13.5px; color:var(--ink-soft); line-height:1.6; margin:0; }
+
+  .icare-card{ background:var(--white); border:1px solid var(--line); padding:18px 16px; text-align:left; }
+  .icare-card .letter{ font-family:'Fraunces',serif; font-size:26px; color:var(--gold); line-height:1; }
+  .icare-card h4{ font-size:14px; margin:10px 0 2px 0; }
+  .icare-card .jp{ font-size:12px; color:var(--muted); margin:0 0 8px 0; }
+  .icare-card p{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; margin:0; }
+
+  ul.dev{ list-style:none; padding:0; margin:0; }
+  ul.dev li{ display:flex; gap:14px; align-items:baseline; padding:13px 0; border-top:1px solid var(--line); }
+  ul.dev li:last-child{ border-bottom:1px solid var(--line); }
+  ul.dev .en{ font-size:15.5px; color:var(--ink); flex:1; }
+  ul.dev .jp{ font-size:13.5px; color:var(--muted); flex:1; }
+
+  .cover-wrap{ text-align:left; }
+  .cover-eyebrow{ font-size:13px; letter-spacing:.04em; color:var(--gold); font-weight:600; margin-bottom:26px; }
+  .cover-title{ font-size:clamp(38px,6vw,60px); line-height:1.05; margin:0 0 6px 0; }
+  .cover-title-jp{ font-size:clamp(19px,2.4vw,24px); color:var(--ink-soft); margin:0 0 34px 0; font-weight:500;}
+  .cover-meta{ display:flex; flex-direction:column; gap:4px; font-size:15px; color:var(--ink-soft); }
+  .cover-meta b{ color:var(--ink); font-weight:600; }
+  .cover-foot{ margin-top:40px; font-size:12.5px; color:var(--muted); max-width:46ch; line-height:1.6; }
+
+  .closing-quote{ font-size:16.5px; line-height:1.85; color:var(--ink); max-width:64ch; }
+
+  /* speaker script toggle */
+  .script-toggle{
+    margin-top:28px; background:none; border:1px solid var(--line); border-radius:20px;
+    padding:7px 16px; font-size:12.5px; color:var(--ink-soft); cursor:pointer;
+    font-family:'Inter',sans-serif; display:inline-flex; align-items:center; gap:7px;
+  }
+  .script-toggle:hover{border-color:var(--gold); color:var(--ink);}
+  .script-toggle .arrow{ transition:transform .25s ease; font-size:10px; }
+  .script-toggle.open .arrow{ transform:rotate(180deg); }
+  .script-panel{ max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .script-panel.open{ max-height:1400px; margin-top:14px; }
+  .script-inner{ background:var(--white); border:1px solid var(--line); padding:18px 22px; }
+  .script-label{ font-size:10.5px; letter-spacing:.07em; color:var(--gold); font-weight:600; margin-bottom:8px; display:block; font-family:'Inter',sans-serif; }
+  .script-en{ font-size:13.5px; color:var(--ink-soft); line-height:1.75; }
+  .script-jp{ font-size:13.5px; color:var(--ink-soft); line-height:1.9; margin-top:14px; padding-top:14px; border-top:1px dashed var(--line); }
+
+  @media print{
+    #topbar,#dots,#arrows,#sectiontag,#progress-track{display:none;}
+    body{overflow:visible;}
+    .slide{position:relative; opacity:1; transform:none; height:auto; page-break-after:always;}
+    #deck{height:auto;}
+    .script-panel{max-height:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-track"><div id="progress-bar"></div></div>
+<div id="topbar">
+  <div id="brand">Suan Bua Thai Restaurant, Centara Grand Osaka</div>
+  <div id="counter"><b id="counter-now">01</b> / 12</div>
+</div>
+
+<div id="deck">
+
+  <!-- 1 TITLE -->
+  <section class="slide" data-title="Title">
+    <div class="slide-inner cover-wrap">
+      <div class="cover-eyebrow">First-month review</div>
+      <h1 class="cover-title">First-Month KPI Review</h1>
+      <div class="cover-title-jp jp">入社1か月 KPIレビュー</div>
+      <p class="stat" style="font-size:17px; max-width:44ch; color:var(--ink-soft); font-weight:400;">Learning, Contribution &amp; Development</p>
+      <p class="stat-jp jp-body">学び、貢献、成長</p>
+      <div class="cover-meta" style="margin-top:30px;">
+        <div><b>Claire</b> <span class="jp">（クレア）</span></div>
+        <div>Restaurant Attendant <span class="jp">／ レストランアテンダント</span></div>
+        <div>Suan Bua Thai Restaurant <span class="jp">／ スアンブア タイレストラン</span></div>
+        <div>Centara Grand Osaka <span class="jp">／ セントーラグランド大阪</span></div>
+      </div>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">Thank you for giving me the opportunity to present my first-month KPI review. Since I am still new to the operation, my main focus during this period has been learning the restaurant, understanding the standards, and becoming more consistent in my work. I would like to briefly share what I have learned, how I have contributed, and the areas I am continuing to develop.</div>
+          <div class="script-jp">初めてのKPIレビューを発表する機会をいただき、ありがとうございます。まだ入社して間もないため、この期間はレストランの業務を学び、基準を理解し、仕事の安定性を高めることを主な目標としてきました。これまでに学んだこと、業務の中で取り組んだこと、そして今後さらに成長していきたい点について、簡単にご説明いたします。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 MY FIRST MONTH -->
+  <section class="slide" data-title="My First Month">
+    <div class="slide-inner">
+      <div class="eyebrow">My First Month <span class="jp" style="color:var(--muted); font-size:13px;">／ 入社1か月</span></div>
+      <p class="stat">Learning the operation, adapting to a new environment, and building consistency.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">オペレーションを学び、新しい環境に適応し、安定した業務を築くこと。</span></div>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">I'm still learning, and that's really been my focus this first month. Before anything else, I wanted to understand how things work here, and I've tried to learn as much as I can from colleagues who already know the operation well. When something isn't clear to me, I ask, and once I learn something, I try to carry it into the next situation so it actually sticks.</div>
+          <div class="script-jp">私はまだ学んでいる途中で、それがこの1か月の一番の目標でした。何よりもまず、ここでの業務の進め方を理解したいと思い、すでによく分かっている同僚から学ぶよう努めてきました。分からないことがあれば質問し、学んだことは次の場面でも活かせるよう心がけています。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 KPI OVERVIEW -->
+  <section class="slide" data-title="KPI Overview">
+    <div class="slide-inner">
+      <div class="eyebrow">KPI Overview <span class="jp" style="color:var(--muted); font-size:13px;">／ 評価項目の概要</span></div>
+      <div class="grid2">
+        <div class="kpi-card"><div class="num">01</div><h3>Driving for Results</h3><p class="jp">成果の追求</p><p>Learning operations and following through on standards.</p></div>
+        <div class="kpi-card"><div class="num">02</div><h3>Customer Focus</h3><p class="jp">顧客重視</p><p>Attentive, professional guest interactions.</p></div>
+        <div class="kpi-card"><div class="num">03</div><h3>Managing Change / Building Organizational Excellence</h3><p class="jp">変化への対応・組織力向上</p><p>Adapting to new procedures and supporting shared understanding.</p></div>
+        <div class="kpi-card"><div class="num">04</div><h3>Collaborating and Partnership Building</h3><p class="jp">協力・パートナーシップの構築</p><p>Working with colleagues and other departments.</p></div>
+      </div>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">I want to walk you through my first month using four areas, driving for results, customer focus, managing change and organizational excellence, and collaborating and partnership building. Along the way, I will also point out where iCARE showed up in what I did, since it has been part of how I have been thinking about my work.</div>
+          <div class="script-jp">この1か月を、成果の追求、顧客重視、変化への対応と組織力向上、協力とパートナーシップの構築という四つの領域に沿ってお話ししたいと思います。あわせて、日々の業務の中でiCAREがどのように関わってきたかについても触れていきます。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 DRIVING FOR RESULTS -->
+  <section class="slide" data-title="Driving for Results">
+    <div class="slide-inner">
+      <div class="eyebrow">01 · Driving for Results <span class="jp" style="color:var(--muted); font-size:13px;">／ 成果の追求</span></div>
+      <p class="stat">I have focused on learning the restaurant's daily operations and becoming reliable in different assignments.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">レストランの日々の業務を学び、さまざまな担当業務において安定して対応できるよう努めてきました。</span></div>
+
+      <ul class="ev-points">
+        <li><div class="en">During my first month, I learned different areas and responsibilities, including buffet preparation, guest escorting, greeting, and service support.</div><span class="jp jp-body">入社1か月の間に、ビュッフェ準備、ゲストのご案内、お出迎え、サービスサポートなど、さまざまな業務を学びました。</span></li>
+        <li><div class="en">During daily operations, I try to notice small issues and communicate them appropriately rather than overlook them. For example, I noticed a spelling error in an English buffet sign, confirmed the correct spelling, and communicated it to the appropriate person.</div><span class="jp jp-body">日々の業務の中で、小さな問題に気づいた際は見過ごさず、適切に伝えるよう心がけています。例えば、ビュッフェの英語表示のスペルミスに気づき、正しいスペルを確認したうえで担当者に伝えました。</span></li>
+        <li><div class="en">My previous experience in the IT industry taught me to identify problems, understand their impact, and look for practical solutions. I am applying the same approach while learning restaurant operations.</div><span class="jp jp-body">以前のIT分野での経験を通じて、問題を見つけ、その影響を理解し、実用的な解決策を探すことを学びました。レストラン業務を学ぶ中でも同じ姿勢を活かしています。</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">This first month has really been about learning the day to day of the restaurant and trying to become someone people can count on, even while I am still new. I picked up buffet preparation, guest escorting, greeting, and service support along the way. I also try to speak up when I notice something small is off rather than let it go. For example, I caught a spelling mistake on one of our English buffet signs, checked what the correct spelling should be, and passed it along to the right person. My previous experience in the IT industry has helped here too. That work trained me to notice problems, think through what they actually affect, and look for a practical fix, and I find myself doing the same thing now while I am learning this new role.</div>
+          <div class="script-jp">この1か月は、レストランの日々の業務を学び、まだ新人ではありますが、周りから頼ってもらえる存在になろうと努めてきた期間でした。ビュッフェ準備、ゲストのご案内、お出迎え、サービスサポートなど、少しずつ身につけてきました。小さな違和感に気づいたときも、そのままにせず声に出すようにしています。例えば、ビュッフェの英語表示にスペルミスがあることに気づき、正しいスペルを確認したうえで担当の方に伝えました。以前のIT分野での経験もここで役立っています。その仕事では、問題に気づき、それが何に影響するのかを考え、実用的な解決策を探すことを学びました。今、この新しい役割を学ぶ中でも、同じように取り組んでいます。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 CUSTOMER FOCUS -->
+  <section class="slide" data-title="Customer Focus">
+    <div class="slide-inner">
+      <div class="eyebrow">02 · Customer Focus <span class="jp" style="color:var(--muted); font-size:13px;">／ 顧客重視</span></div>
+      <p class="stat">I try to notice when guests may need assistance and respond when appropriate.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">お客様が助けを必要としている様子に気づいたときは、状況に応じて対応するよう心がけています。</span></div>
+
+      <ul class="ev-points">
+        <li><div class="en">I noticed guests who were having difficulty managing their plates and assisted them when appropriate, including helping with slicing food and carrying a plate to a table.</div><span class="jp jp-body">お皿の扱いにお困りのお客様に気づいた際は、状況に応じてサポートしました。食べ物のカットやお皿を運ぶお手伝いをすることもありました。</span></li>
+        <li><div class="en">I use English communication and active listening to create a comfortable experience for international guests, and I try to explain operational limitations, such as last order timing, clearly while keeping a welcoming attitude.</div><span class="jp jp-body">英語でのコミュニケーションと丁寧な傾聴を通じて、海外からのお客様に心地よい体験を提供するよう努めています。ラストオーダーの時間など、業務上の制約についても、温かい対応を保ちながら分かりやすく説明するよう心がけています。</span></li>
+        <li><div class="en">When a guest had previously experienced a less comfortable moment, I focused on providing a professional and welcoming interaction during their next visit rather than revisiting what had happened.</div><span class="jp jp-body">以前あまり快適でない出来事があったお客様に対しても、その件を蒸し返すのではなく、次にお会いした際は専門的で温かい対応を心がけました。</span></li>
+        <li><div class="en">I have received positive guest feedback regarding my professionalism, smile, energy, and communication.</div><span class="jp jp-body">プロフェッショナルな対応、笑顔、エネルギー、コミュニケーションについて、お客様から前向きなフィードバックをいただいています。</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">For me, customer focus really comes down to paying attention, noticing when a guest might need a hand and stepping in when it makes sense. I have helped guests who were struggling a bit with their plates, and there was one time I helped slice some fruit and carried the plate over to the table. With guests visiting from other countries, I lean on my English and try to really listen, so the experience feels comfortable for them. I also try to be upfront about things like last order timing, explaining it clearly but still keeping things warm and welcoming. There was a guest who had had a less pleasant moment here before, and the next time I saw them, I did not bring that up again. I just focused on giving them a good, professional experience in that moment. I have been glad to hear positive feedback about my professionalism, my smile, my energy, and the way I communicate, and I know at least one guest passed along a kind word about my service to a colleague.</div>
+          <div class="script-jp">私にとって顧客重視とは、常に注意を払い、お客様が助けを必要としている様子に気づいたら、状況に応じて対応することだと思っています。お皿の扱いにお困りのお客様をお手伝いしたこともあり、あるときは果物のカットとお皿を運ぶお手伝いをしました。海外からのお客様には、英語でのコミュニケーションを活かし、しっかり耳を傾けることで、心地よく過ごしていただけるよう努めています。ラストオーダーの時間なども、はっきりと、それでいて温かくお伝えするようにしています。以前あまり快適でない経験をされたお客様がいらっしゃいましたが、次にお会いしたときはその件を蒸し返さず、その場でのプロフェッショナルな対応を大切にしました。プロフェッショナルな対応や笑顔、エネルギー、コミュニケーションについて前向きなフィードバックをいただけたことは、うれしく思っています。あるお客様が同僚に私のサービスについて良い言葉をかけてくださったとも聞いています。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 MANAGING CHANGE -->
+  <section class="slide" data-title="Managing Change">
+    <div class="slide-inner">
+      <div class="eyebrow">03 · Managing Change / Building Organizational Excellence <span class="jp" style="color:var(--muted); font-size:13px;">／ 変化への対応・組織力向上</span></div>
+      <p class="stat">I am adapting to a new industry, new operational procedures, a multicultural workplace, and Japanese workplace communication.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">新しい業界、新しい業務手順、多文化の職場、そして日本語での職場コミュニケーションに適応しているところです。</span></div>
+
+      <ul class="ev-points">
+        <li><div class="en">I continue to learn restaurant procedures through daily practice, observation, questions, and feedback.</div><span class="jp jp-body">日々の実践、観察、質問、フィードバックを通じて、レストランの業務手順を学び続けています。</span></li>
+        <li><div class="en">I have been developing my understanding of iCARE by connecting each concept with situations I encounter during daily operations.</div><span class="jp jp-body">日々の業務で出会う場面とiCAREの各考え方を結びつけながら、理解を深めています。</span></li>
+        <li><div class="en">I am continuing to understand how iCARE applies to my daily work.</div><span class="jp jp-body">iCAREが日々の業務にどのように関わるか、引き続き理解を深めています。</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">Coming into a new industry, a new set of procedures, and a workplace with people from so many different backgrounds, while also building up my Japanese, has been a real adjustment for me. I keep learning the restaurant's procedures the same way most people do, through daily practice, watching how things are done, asking questions, and taking in feedback. iCARE has been part of that too. I have been trying to connect each of the five ideas to real situations I actually run into during my shifts, rather than just memorizing what they mean. It is still very much a work in progress for me, and I am continuing to figure out how iCARE fits into my everyday work.</div>
+          <div class="script-jp">新しい業界、新しい業務手順、そして多様な背景を持つ人たちが働く職場に加わり、同時に日本語力も伸ばしていくというのは、私にとって大きな挑戦でした。レストランの手順は、日々の実践、観察、質問、フィードバックを通して、少しずつ学び続けています。iCAREについても同じです。五つの考え方を、ただ暗記するのではなく、実際の勤務の中で出会う場面と結びつけるよう心がけてきました。まだまだ学びの途中であり、iCAREが日々の業務にどう関わるのか、引き続き理解を深めています。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 COLLABORATING & PARTNERSHIP -->
+  <section class="slide" data-title="Collaborating and Partnership Building">
+    <div class="slide-inner">
+      <div class="eyebrow">04 · Collaborating and Partnership Building <span class="jp" style="color:var(--muted); font-size:13px;">／ 協力・パートナーシップの構築</span></div>
+      <p class="stat">I support colleagues by encouraging them to connect iCARE concepts with their own experiences.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">同僚がiCAREの考え方を自分自身の経験と結びつけられるよう、サポートしています。</span></div>
+
+      <ul class="ev-points">
+        <li><div class="en">I have supported colleagues when they needed clarification about iCARE concepts, encouraging them to think about their own experiences rather than simply giving them answers.</div><span class="jp jp-body">同僚がiCAREの考え方について確認を必要としているとき、答えをそのまま伝えるのではなく、自身の経験について考えられるようサポートしてきました。</span></li>
+        <li><div class="en">I encouraged a colleague to speak up and share her own experience. Seeing her explain the concept reinforced the value of supportive teamwork.</div><span class="jp jp-body">同僚が自分の意見を話し、自身の経験を共有できるよう励ましました。その同僚が概念を説明する様子を見て、支え合うチームワークの大切さを改めて感じました。</span></li>
+        <li><div class="en">I have learned that collaboration extends beyond our immediate restaurant team and can involve coordination with other hotel departments.</div><span class="jp jp-body">レストランチームだけでなく、他部署との連携も協力の一部であると学びました。</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">Something I have naturally found myself doing is helping colleagues when they need a bit of clarity, especially around iCARE. I want to be clear, I am still learning this myself, so I do not think of it as teaching anyone. I just try to share what I have understood so far and encourage the other person to think it through in their own way. There was one moment where a colleague was getting ready to answer a question about Alliance, and I encouraged her to speak up and use her own experience instead of worrying about giving a perfect answer. Watching her explain it in her own words reminded me how much a bit of encouragement can do. I have also realized that working together does not stop at our restaurant team, it often means coordinating with other parts of the hotel too.</div>
+          <div class="script-jp">自然と行うようになったことの一つが、特にiCAREに関して、同僚が少し迷っているときにサポートすることです。誤解のないように言うと、私自身もまだ学んでいる途中なので、これを誰かに教えているとは思っていません。自分がこれまでに理解したことを共有し、相手自身で考えられるよう促しているだけです。あるとき、同僚がAllianceについての質問に答える準備をしていました。私は完璧な答えを気にせず、自分の経験をもとに話してみるよう励ましました。その同僚が自分の言葉で説明する様子を見て、ちょっとした励ましがどれほど力になるかを改めて感じました。また、協力というのはレストランチームの中だけで完結するものではなく、ホテル内の他部署との連携も含まれるのだと気づきました。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 ICARE -->
+  <section class="slide" data-title="iCARE in Daily Operations">
+    <div class="slide-inner">
+      <div class="eyebrow">iCARE in Daily Operations <span class="jp" style="color:var(--muted); font-size:13px;">／ 日々の業務におけるiCARE</span></div>
+      <div class="grid5">
+        <div class="icare-card"><div class="letter">I</div><h4>Innovation</h4><p class="jp">革新</p><p>Looking for practical improvements and identifying operational issues.</p></div>
+        <div class="icare-card"><div class="letter">C</div><h4>Customer</h4><p class="jp">顧客</p><p>Understanding the guest experience and responding appropriately.</p></div>
+        <div class="icare-card"><div class="letter">A</div><h4>Alliance</h4><p class="jp">連携</p><p>Understanding that different hotel teams support one another.</p></div>
+        <div class="icare-card"><div class="letter">R</div><h4>Relationship</h4><p class="jp">関係構築</p><p>Building respectful, professional relationships.</p></div>
+        <div class="icare-card"><div class="letter">E</div><h4>Ethics</h4><p class="jp">倫理</p><p>Integrity, appropriate conduct, and following standards.</p></div>
+      </div>
+
+      <ul class="ev-points">
+        <li><div class="en">When the team was uncertain about an iCARE question during a briefing, I volunteered to answer and connected Ethics with integrity and responsible conduct.</div><span class="jp jp-body">ブリーフィングでiCAREに関する質問にチームが答えに迷った際、私が手を挙げて答え、倫理を誠実さと責任ある行動に結びつけて説明しました。</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">iCARE stands for Innovation, Customer, Alliance, Relationship, and Ethics, and it has become a kind of lens I try to look through during my shifts. Innovation, for me, means keeping an eye out for small practical improvements and speaking up about operational issues. Customer means really trying to understand what the guest in front of me needs in that moment. Alliance is remembering that different teams across the hotel are there to support each other. Relationship is about building genuine, respectful connections with both guests and colleagues. Ethics, to me, is about integrity, doing things the right way, and following the standards we are given. There was actually a moment in a briefing where the team was not sure how to answer an iCARE question, so I raised my hand and connected Ethics to integrity and responsible conduct.</div>
+          <div class="script-jp">iCAREとは、Innovation（革新）、Customer（顧客）、Alliance（連携）、Relationship（関係構築）、Ethics（倫理）のことで、勤務中に自分の中で意識するような視点になっています。私にとってInnovationとは、小さな改善点に目を配り、業務上の課題があれば声に出すことです。Customerは、目の前のお客様が今何を必要としているかを、しっかり理解しようとすることです。Allianceは、ホテル内のさまざまなチームが互いに支え合っているということを忘れないことです。Relationshipは、お客様とも同僚とも、誠実で敬意のある関係を築くことです。そしてEthicsは、私にとって誠実さ、正しいやり方で物事を行うこと、そして決められた基準を守ることです。あるブリーフィングで、チームがiCAREに関する質問にどう答えるか迷った場面がありました。そのとき私は手を挙げ、倫理を誠実さと責任ある行動に結びつけて説明しました。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 WHAT I AM DEVELOPING -->
+  <section class="slide" data-title="What I Am Developing">
+    <div class="slide-inner">
+      <div class="eyebrow">What I Am Developing <span class="jp" style="color:var(--muted); font-size:13px;">／ 今後伸ばしていきたいこと</span></div>
+      <ul class="dev">
+        <li><div class="en">Deepen my knowledge of restaurant operations</div><div class="jp jp-body">レストラン業務についての理解を深める</div></li>
+        <li><div class="en">Continue improving Japanese workplace communication</div><div class="jp jp-body">日本語での職場コミュニケーションを向上させ続ける</div></li>
+        <li><div class="en">Improve speed and accuracy through experience</div><div class="jp jp-body">経験を通じてスピードと正確さを高める</div></li>
+        <li><div class="en">Understand more of the hotel's standards and procedures</div><div class="jp jp-body">ホテルの基準や手順への理解を深める</div></li>
+        <li><div class="en">Continue developing customer service skills</div><div class="jp jp-body">接客スキルを引き続き伸ばす</div></li>
+        <li><div class="en">Gradually take on greater responsibility as my operational knowledge develops</div><div class="jp jp-body">業務知識の成長に応じて、少しずつ責任範囲を広げる</div></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">There is still a fair amount I want to keep working on. I would like to go deeper into restaurant operations, keep building my Japanese for the workplace, improve my speed and accuracy simply through more experience, understand more of the hotel's standards, and keep sharpening my customer service. As I get more comfortable with the operation, I would like to gradually take on more responsibility, step by step.</div>
+          <div class="script-jp">まだまだ伸ばしていきたいことがたくさんあります。レストラン業務についての理解をさらに深めたいですし、職場で使う日本語も引き続き磨いていきたいです。経験を重ねることで、スピードと正確さも高めていきたいと思っています。ホテルの基準や手順への理解も深めたいですし、接客スキルもこれからさらに伸ばしていきたいです。業務に慣れていくにつれて、一歩ずつ責任の範囲も広げていければと思っています。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 MY APPROACH GOING FORWARD -->
+  <section class="slide" data-title="My Approach Going Forward">
+    <div class="slide-inner">
+      <div class="eyebrow">My Approach Going Forward <span class="jp" style="color:var(--muted); font-size:13px;">／ 今後の取り組み方</span></div>
+      <p class="stat">My immediate goal is to deepen my operational knowledge and continue improving through daily practice and feedback.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">当面の目標は、業務知識を深め、日々の実践とフィードバックを通じて成長し続けることです。</span></div>
+
+      <ul class="ev-points">
+        <li><div class="en">Continue asking questions and applying feedback</div><span class="jp jp-body">質問を続け、いただいたフィードバックを業務に活かす</span></li>
+        <li><div class="en">Build consistency across different situations</div><span class="jp jp-body">さまざまな状況における一貫した対応力を築く</span></li>
+        <li><div class="en">Strengthen Japanese communication through daily practice</div><span class="jp jp-body">日々の実践を通じて日本語コミュニケーションを強化する</span></li>
+        <li><div class="en">Take on additional responsibility gradually as understanding grows</div><span class="jp jp-body">理解が深まるにつれて、少しずつ責任範囲を広げる</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">Going forward, my goal is pretty simple, deepen my operational knowledge and keep improving through daily practice and the feedback I get. In practical terms, that means I will keep asking questions and actually using the feedback I receive, work on being consistent across different situations instead of trying to show everything at once, keep building my Japanese through daily practice, and take on a bit more responsibility as my understanding grows, rather than all at once.</div>
+          <div class="script-jp">今後の目標はシンプルです。業務知識を深め、日々の実践とフィードバックを通じて成長し続けることです。具体的には、質問を続けていただいたフィードバックをきちんと活かすこと、一度にすべてを示そうとせず、さまざまな状況で一貫した対応ができるよう取り組むこと、日々の実践を通じて日本語コミュニケーションを強化すること、そして理解が深まるにつれて、少しずつ責任の範囲を広げていくことです。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 REFLECTION -->
+  <section class="slide" data-title="Reflection After One Month">
+    <div class="slide-inner">
+      <div class="eyebrow">Reflection After One Month <span class="jp" style="color:var(--muted); font-size:13px;">／ 1か月を振り返って</span></div>
+      <p class="stat">I have learned a great deal, but I also recognize how much more there is to learn.</p>
+      <div class="ja-block"><span class="ja-label">日本語</span><span class="jp-body">多くのことを学びましたが、まだ学ぶべきことが多くあると感じています。</span></div>
+
+      <ul class="ev-points">
+        <li><div class="en">My focus has been consistency rather than trying to demonstrate everything at once.</div><span class="jp jp-body">一度にすべてを示そうとするのではなく、安定した対応を重視してきました。</span></li>
+        <li><div class="en">I understand that my overall performance is best evaluated through my daily work, consistency, learning progress, and contribution to the team.</div><span class="jp jp-body">私の全体的な業務は、日々の仕事ぶり、安定性、学びの進み具合、そしてチームへの貢献を通じて評価していただくものだと理解しています。</span></li>
+        <li><div class="en">I recognize that one month is still a short period, and there is much more for me to learn.</div><span class="jp jp-body">1か月はまだ短い期間であり、学ぶべきことがまだ多くあると認識しています。</span></li>
+      </ul>
+
+      <button class="script-toggle" type="button" aria-label="Expand"><span class="arrow">▾</span></button>
+      <div class="script-panel">
+        <div class="script-inner">
+          <div class="script-en">Looking back on this first month, I feel like I have learned a lot, but I am also very aware of how much I still have ahead of me. I have tried to focus on being consistent rather than rushing to show everything I can do at once. I understand that the real evaluation of my work comes from my daily performance, how consistent I am, how I am progressing, and what I contribute to the team, not from anything I say here today. One month is still a short time, and I know there is a lot more for me to learn.</div>
+          <div class="script-jp">この1か月を振り返ると、多くのことを学べたと感じる一方で、まだまだ先があることも実感しています。一度にすべてを示そうとするのではなく、安定した対応を大切にしてきました。私の業務の本当の評価は、今日ここでお話しすることではなく、日々の仕事ぶりや安定性、学びの進み具合、そしてチームへの貢献から判断していただくものだと理解しています。1か月はまだ短い期間であり、学ぶべきことがまだ多くあると感じています。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 CLOSING -->
+  <section class="slide" data-title="Closing">
+    <div class="slide-inner">
+      <div class="eyebrow">Closing <span class="jp" style="color:var(--muted); font-size:13px;">／ 結び</span></div>
+      <p class="closing-quote">After one month, I understand that there is still much more for me to learn. My immediate priority is to deepen my operational knowledge, continue improving my Japanese communication, and become more consistent through daily practice and feedback. I am grateful for the opportunity to learn and contribute to the team, and I will continue developing step by step.</p>
+      <div class="ja-block">
+        <span class="ja-label">日本語</span>
+        <span class="jp-body">入社して1か月ですが、まだ学ぶべきことが多くあると感じています。今後は、業務への理解をさらに深め、日本語でのコミュニケーション力を高め、日々の実践とフィードバックを通して、より安定した業務ができるよう努めていきたいと思います。これからも一つひとつ学びながら、チームに貢献できるよう成長していきたいと思います。</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="dots"></div>
+<div id="arrows">
+  <button class="navbtn" id="prevBtn" aria-label="Previous">‹</button>
+  <button class="navbtn" id="nextBtn" aria-label="Next">›</button>
+</div>
+<div id="sectiontag"><span id="section-title">Title</span></div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const counterNow = document.getElementById('counter-now');
+  const progressBar = document.getElementById('progress-bar');
+  const sectionTitle = document.getElementById('section-title');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let current = 0;
+
+  slides.forEach((s,i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', 'Go to slide ' + (i+1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function goTo(i){
+    if(i < 0 || i >= slides.length) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    counterNow.textContent = String(current+1).padStart(2,'0');
+    progressBar.style.width = ((current+1)/slides.length*100) + '%';
+    sectionTitle.textContent = slides[current].dataset.title;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    slides[current].querySelector('.slide-inner').scrollTop = 0;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current-1));
+  nextBtn.addEventListener('click', () => goTo(current+1));
+
+  window.addEventListener('keydown', (e) => {
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); goTo(current+1); }
+    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); goTo(current-1); }
+    if(e.key === 'Home'){ goTo(0); }
+    if(e.key === 'End'){ goTo(slides.length-1); }
+  });
+
+  let touchStartY = null;
+  window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY, {passive:true});
+  window.addEventListener('touchend', e => {
+    if(touchStartY === null) return;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dy) > 60){ dy < 0 ? goTo(current+1) : goTo(current-1); }
+    touchStartY = null;
+  }, {passive:true});
+
+  document.querySelectorAll('.script-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('open');
+      btn.nextElementSibling.classList.toggle('open');
+    });
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
